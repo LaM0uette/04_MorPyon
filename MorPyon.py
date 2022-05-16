@@ -71,6 +71,18 @@ class NewGame:
 
         self.player_turn = Player.Player2 if self.player_turn == Player.Player1 else Player.Player1
 
+    def check_end(self):
+        for item in self.matrix_game:
+            if 0 in item:
+                return
+
+        self.run = False
+        self.draw_game()
+        self.draw_end("Grille pleine !")
+
+    def draw_end(self, msg):
+        print(f"{colored(msg, 'yellow') if self.player_turn.value == 1 else colored(msg, 'red')}")
+
     def start(self):
         os.system(f"mode con: cols={38+(self.size_game**2)} lines={4+self.size_game}")
 
