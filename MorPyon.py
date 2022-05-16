@@ -82,18 +82,9 @@ class NewGame:
         self.player_turn = Player.Player2 if self.player_turn == Player.Player1 else Player.Player1
 
     def check_win(self):
-        def check(result):
-            if f"{self.player_turn.value}"*self.size_game in result:
-
-                for i in range(self.size_game):
-                    self.matrix_game[indexWin[i][0]][indexWin[i][1]] = self.player_turn.value*3
-
-                self.run = False
-                self.draw_game()
-
-                self.draw_end(f"{self.player_turn.name} à gagné la partie !")
-
-
+        for _ in self.matrix_win:
+            for i in self.matrix_game:
+                game_check = "".join(str(x) for x in i)
 
     def check_end(self):
         for item in self.matrix_game:
