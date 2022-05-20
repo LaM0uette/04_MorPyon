@@ -38,7 +38,7 @@ class NewGame:
         return lst
 
     def init_display(self):
-        os.system(f"mode con: cols={38+(self.size_game**2)} lines={4+self.size_game}")
+        os.system(f"mode con: cols={38+(self.size_game**2)} lines={6+self.size_game}")
 
     def draw_player_turn(self):
         txt = self.player_turn.name if self.run else ""
@@ -121,7 +121,7 @@ class NewGame:
             if 0 in item:
                 return
 
-        self.end_game("Grille pleine !")
+        self.end_game("Match nul !")
 
     def end_game(self, msg):
         self.run = False
