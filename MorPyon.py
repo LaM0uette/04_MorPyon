@@ -81,20 +81,24 @@ class NewGame:
         self.player_turn = Player.Player2 if self.player_turn == Player.Player1 else Player.Player1
 
     def check_win(self):
-        for _ in self.matrix_win:
-            for i in self.matrix_game:
-                game_check = "".join(str(x) for x in i)
+        for matrix in self.matrix_win:
+            for i in matrix:
+                if self.matrix_game[i[0]][i[1]] != self.player_turn.value:
+                    return
+
+        self.end_game(f"{self.player_turn.name} à gagné la partie !")
+
 
     def check_end(self):
         for item in self.matrix_game:
             if 0 in item:
                 return
 
+        self.end_game("Grille pleine !")
+
+    def end_game(self, msg):
         self.run = False
         self.draw_game()
-        self.draw_end("Grille pleine !")
-
-    def draw_end(self, msg):
         print(f"{colored(msg, 'yellow') if self.player_turn.value == 1 else colored(msg, 'red')}")
 
     def start(self):
