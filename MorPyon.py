@@ -23,7 +23,7 @@ class NewGame:
             [[0, 1], [1, 1], [2, 1]],
             [[0, 2], [1, 2], [2, 2]],
             [[0, 0], [1, 1], [2, 2]],
-            [[2, 2], [1, 1], [0, 0]],
+            [[0, 2], [1, 1], [2, 0]],
         ]
 
     def gen_matrice(self):
@@ -82,12 +82,14 @@ class NewGame:
 
     def check_win(self):
         for matrix in self.matrix_win:
-            for i in matrix:
-                if self.matrix_game[i[0]][i[1]] != self.player_turn.value:
-                    return
 
-        self.end_game(f"{self.player_turn.name} à gagné la partie !")
+            c1, c2, c3 = matrix[0], matrix[1], matrix[2]
 
+            if self.matrix_game[c1[0]][c1[1]] == self.player_turn.value and \
+                    self.matrix_game[c2[0]][c2[1]] == self.player_turn.value and \
+                    self.matrix_game[c3[0]][c3[1]] == self.player_turn.value:
+
+                self.end_game(f"{self.player_turn.name} à gagné la partie !")
 
     def check_end(self):
         for item in self.matrix_game:
@@ -110,4 +112,17 @@ class NewGame:
             input_player = input(f"Entrez le numéro d'une case (1 - {self.size_game**2}) : ")
             self.player_play(num_played=input_player)
 
+
 NewGame().start()
+
+run = True
+
+while run:
+    txt = input("Une nouvelle partie ? (o|n) : ")
+
+    if txt.lower() == "o":
+        NewGame().start()
+    elif txt.lower() == "n":
+        run = False
+    else:
+        print("Saisie incorect !")
