@@ -32,7 +32,7 @@ class NewGame:
         for row in range(self.size_game):
             lst.append([])
 
-            for col in range(self.size_game):
+            for _ in range(self.size_game):
                 lst[row].append(0)
 
         return lst
