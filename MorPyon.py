@@ -37,6 +37,9 @@ class NewGame:
 
         return lst
 
+    def init_display(self):
+        os.system(f"mode con: cols={38+(self.size_game**2)} lines={4+self.size_game}")
+
     def draw_game(self):
         os.system("cls")
 
@@ -48,11 +51,7 @@ class NewGame:
         print("")
         
     def player_play(self, num_played):
-        if not num_played.isdigit():
-            print("Valeur incorect !")
-            time.sleep(0.5)
-            return
-        if not 0 < int(num_played) < self.size_game**2 + 1:
+        if not num_played.isdigit() or not 0 < int(num_played) < self.size_game**2 + 1:
             print("Valeur incorect !")
             time.sleep(0.5)
             return
@@ -60,17 +59,17 @@ class NewGame:
         num = int(num_played) - 1
 
         if 0 <= num <= 2:
-            row = num
-            col = 0
+            col = num
+            row = 2
         elif 3 <= num <= 5:
-            row = num-3
-            col = 1
+            col = num - 3
+            row = 1
         else:
-            row = num - 6
-            col = 2
+            col = num - 6
+            row = 0
 
-        if self.matrix_game[col][row] == 0:
-            self.matrix_game[col][row] = self.player_turn.value
+        if self.matrix_game[row][col] == 0:
+            self.matrix_game[row][col] = self.player_turn.value
         else:
             print("Impossible de jouer ici !")
             time.sleep(1)
@@ -99,12 +98,12 @@ class NewGame:
         print(f"{colored(msg, 'yellow') if self.player_turn.value == 1 else colored(msg, 'red')}")
 
     def start(self):
-        os.system(f"mode con: cols={38+(self.size_game**2)} lines={4+self.size_game}")
+        self.init_display()
 
         while self.run:
             self.draw_game()
 
-            input_player = input(f"Entrez le numéro d'une colonne (1 - {self.size_game**2}) : ")
+            input_player = input(f"Entrez le numéro d'une case (1 - {self.size_game**2}) : ")
             self.player_play(num_played=input_player)
 
 NewGame().start()
