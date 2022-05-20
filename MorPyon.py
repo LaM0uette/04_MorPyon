@@ -40,15 +40,41 @@ class NewGame:
     def init_display(self):
         os.system(f"mode con: cols={38+(self.size_game**2)} lines={4+self.size_game}")
 
+    def draw_player_turn(self):
+        txt = self.player_turn.name if self.run else ""
+        self.draw_rgb(txt)
+
+    def draw_matrix_game(self):
+        for i in range(self.size_game):
+
+            row_txt = ""
+            for token in self.matrix_game[i]:
+                match token:
+                    case 1:
+                        token_rgb = colored('O', 'yellow')
+                    case 2:
+                        token_rgb = colored('X', 'red')
+                    case 3:
+                        token_rgb = colored('O', 'green', attrs=['bold'])
+                    case 6:
+                        token_rgb = colored('X', 'green', attrs=['bold'])
+                    case _:
+                        token_rgb = " "
+
+                row_txt += f"[{token_rgb}]"
+
+            print(f"\t\t{row_txt}")
+        print()
+
+    def draw_rgb(self, msg):
+        rgb_txt = colored(msg, 'yellow') if self.player_turn.value == 1 else colored(msg, 'red')
+        print(f"{rgb_txt}\n")
+
     def draw_game(self):
         os.system("cls")
 
-        print(f"Tour: {self.player_turn.name}" if self.run else '')
-
-        for i in range(self.size_game):
-            print(f"""                   {''.join(f"[{colored('O', 'yellow') if x == 1 else colored('X', 'red') if x == 2 else colored('O', 'green', attrs=['bold']) if x == 3 else colored('X', 'green', attrs=['bold']) if x == 6 else ' '}]" for x in self.matrix_game[i])}""")
-
-        print("")
+        self.draw_player_turn()
+        self.draw_matrix_game()
         
     def player_play(self, num_played):
         if not num_played.isdigit() or not 0 < int(num_played) < self.size_game**2 + 1:
@@ -82,13 +108,12 @@ class NewGame:
 
     def check_win(self):
         for matrix in self.matrix_win:
-
-            c1, c2, c3 = matrix[0], matrix[1], matrix[2]
-
-            if self.matrix_game[c1[0]][c1[1]] == self.player_turn.value and \
-                    self.matrix_game[c2[0]][c2[1]] == self.player_turn.value and \
-                    self.matrix_game[c3[0]][c3[1]] == self.player_turn.value:
-
+            for i in matrix:
+                if self.matrix_game[i[0]][i[1]] != self.player_turn.value:
+                    break
+            else:
+                for i in matrix:
+                    self.matrix_game[i[0]][i[1]] *= 3
                 self.end_game(f"{self.player_turn.name} à gagné la partie !")
 
     def check_end(self):
