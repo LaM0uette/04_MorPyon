@@ -150,4 +150,4 @@ while run:
     elif txt.lower() == "n":
         run = False
     else:
-        print("Saisie incorect !")
+        print("Saisie incorrect !")
